@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Users {
+  id              BigInt   @id @default(autoincrement())
+  email           String   @unique @db.VarChar(255)
+  first_name      String   @db.VarChar(100)
+  last_name       String   @db.VarChar(100)
+  password        String
+  is_admin        Boolean  @default(false)
+  shipping_adress String
+  Orders          Orders[]
+}
+
+model Collections {
+  id           BigInt   @id @default(autoincrement())
+  date_created DateTime @default(now())
+  name         String   @db.VarChar(255)
+  Items        Items?
+}
+
+model Items {
+  id            BigInt       @id @unique @default(autoincrement())
+  collection_id BigInt       @unique
+  collection    Collections  @relation(fields: [collection_id], references: [id])
+  name          String       @db.VarChar(255)
+  description   String       @db.VarChar(255)
+  product_type  String       @db.VarChar(100)
+  stock         Int
+  price         Int
+  Order_items   Order_items?
+}
+
+model Items_img {
+  id        BigInt  @id @unique @default(autoincrement())
+  image_url String
+  is_main   Boolean @default(false)
+}
+
+model Orders {
+  id              BigInt        @id @unique @default(autoincrement())
+  user_id         BigInt?
+  user            Users?        @relation(fields: [user_id], references: [id])
+  total_price     Int
+  order_date      DateTime      @default(now())
+  order_status    String        @db.VarChar(50)
+  shipping_adress String        @db.VarChar(1024)
+  first_name      String        @db.VarChar(50)
+  last_name       String        @db.VarChar(255)
+  email           String        @db.VarChar(255)
+  Order_items     Order_items[]
+}
+
+model Order_items {
+  id       BigInt @id @unique @default(autoincrement())
+  quantity Int
+  item_id  BigInt @unique
+  item     Items  @relation(fields: [item_id], references: [id])
+  order_id BigInt @unique
+  order    Orders @relation(fields: [order_id], references: [id])
+}
