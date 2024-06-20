@@ -83,7 +83,7 @@ authRoute.post("/login", async (req, res) => {
       is_admin: existingEmailAccount.is_admin,
     };
     let Token = jwt.sign(TokenPayload, jwtSecret, { expiresIn: "3h" });
-    return res.status(200).json({ accessToken: Token });
+    return res.status(200).json({ accessToken: Token, user: TokenPayload });
   }
 });
 
