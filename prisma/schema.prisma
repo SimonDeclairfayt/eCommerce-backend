@@ -15,7 +15,7 @@ datasource db {
 }
 
 model Users {
-  id              BigInt   @id @default(autoincrement())
+  id              Int      @id @default(autoincrement())
   email           String   @unique @db.VarChar(255)
   first_name      String   @db.VarChar(100)
   last_name       String   @db.VarChar(100)
@@ -26,33 +26,37 @@ model Users {
 }
 
 model Collections {
-  id           BigInt   @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   date_created DateTime @default(now())
   name         String   @db.VarChar(255)
   Items        Items?
 }
 
 model Items {
-  id            BigInt       @id @unique @default(autoincrement())
-  collection_id BigInt       @unique
+  id            Int          @id @unique @default(autoincrement())
+  collection_id Int          @unique
   collection    Collections  @relation(fields: [collection_id], references: [id])
   name          String       @db.VarChar(255)
   description   String       @db.VarChar(255)
   product_type  String       @db.VarChar(100)
   stock         Int
   price         Int
+  date_created  DateTime     @default(now())
   Order_items   Order_items?
+  Items_img     Items_img[]
 }
 
 model Items_img {
-  id        BigInt  @id @unique @default(autoincrement())
+  id        Int     @id @unique @default(autoincrement())
+  item_id   Int
+  items     Items   @relation(fields: [item_id], references: [id])
   image_url String
   is_main   Boolean @default(false)
 }
 
 model Orders {
-  id              BigInt        @id @unique @default(autoincrement())
-  user_id         BigInt?
+  id              Int           @id @unique @default(autoincrement())
+  user_id         Int?
   user            Users?        @relation(fields: [user_id], references: [id])
   total_price     Int
   order_date      DateTime      @default(now())
@@ -65,10 +69,10 @@ model Orders {
 }
 
 model Order_items {
-  id       BigInt @id @unique @default(autoincrement())
+  id       Int    @id @unique @default(autoincrement())
   quantity Int
-  item_id  BigInt @unique
+  item_id  Int    @unique
   item     Items  @relation(fields: [item_id], references: [id])
-  order_id BigInt @unique
+  order_id Int    @unique
   order    Orders @relation(fields: [order_id], references: [id])
 }

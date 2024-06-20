@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "Users" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "email" VARCHAR(255) NOT NULL,
     "first_name" VARCHAR(100) NOT NULL,
     "last_name" VARCHAR(100) NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE "Users" (
 
 -- CreateTable
 CREATE TABLE "Collections" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "date_created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "name" VARCHAR(255) NOT NULL,
 
@@ -22,20 +22,21 @@ CREATE TABLE "Collections" (
 
 -- CreateTable
 CREATE TABLE "Items" (
-    "id" BIGSERIAL NOT NULL,
-    "collection_id" BIGINT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "collection_id" INTEGER NOT NULL,
     "name" VARCHAR(255) NOT NULL,
     "description" VARCHAR(255) NOT NULL,
     "product_type" VARCHAR(100) NOT NULL,
     "stock" INTEGER NOT NULL,
     "price" INTEGER NOT NULL,
+    "date_created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Items_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Items_img" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "image_url" TEXT NOT NULL,
     "is_main" BOOLEAN NOT NULL DEFAULT false,
 
@@ -44,8 +45,8 @@ CREATE TABLE "Items_img" (
 
 -- CreateTable
 CREATE TABLE "Orders" (
-    "id" BIGSERIAL NOT NULL,
-    "user_id" BIGINT,
+    "id" SERIAL NOT NULL,
+    "user_id" INTEGER,
     "total_price" INTEGER NOT NULL,
     "order_date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "order_status" VARCHAR(50) NOT NULL,
@@ -59,10 +60,10 @@ CREATE TABLE "Orders" (
 
 -- CreateTable
 CREATE TABLE "Order_items" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "quantity" INTEGER NOT NULL,
-    "item_id" BIGINT NOT NULL,
-    "order_id" BIGINT NOT NULL,
+    "item_id" INTEGER NOT NULL,
+    "order_id" INTEGER NOT NULL,
 
     CONSTRAINT "Order_items_pkey" PRIMARY KEY ("id")
 );
