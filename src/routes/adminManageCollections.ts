@@ -37,3 +37,22 @@ adminManageCollections.post("/add/collection", async (req, res) => {
 });
 
 //FAIRE PATCH ET DELETE
+adminManageCollections.patch("/patch/collection/:id", async (req, res) => {
+  const collectionName: string = req.body.name;
+  const id: number = +req.params.id;
+  try {
+    const updateCollection = await prisma.collections.update({
+      where: {
+        id: id,
+      },
+      data: {
+        name: collectionName,
+      },
+    });
+    return res.status(200).json({ message: "Collection updated" });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Error updating the collection name", Error: err });
+  }
+});

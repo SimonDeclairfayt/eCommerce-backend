@@ -7,10 +7,14 @@ import { adminManageCollections } from "./adminManageCollections";
 
 export const adminView = Router();
 
+//GET ALL ITEMS
 adminView.get("/", async (req, res) => {
   try {
     const items = await prisma.items.findMany({
-      include: { collection: true, Items_img: true },
+      include: {
+        collection: { select: { name: true } },
+        Items_img: { select: { id: true, image_url: true, is_main: true } },
+      },
     });
     return res.send(items);
   } catch (err) {
