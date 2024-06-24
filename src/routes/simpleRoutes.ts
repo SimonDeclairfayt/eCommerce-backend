@@ -1,14 +1,9 @@
 import { Router } from "express";
 import { prisma } from "../config/prismaConfig";
-import uploadFile from "../utils/upload";
-import upload from "../middleware/multer";
-import { adminManageItems } from "./admin/adminManageItems";
-import { adminManageCollections } from "./admin/adminManageCollections";
 
-export const adminView = Router();
+export const simpleRoute = Router();
 
-//GET ALL ITEMS
-adminView.get("/", async (req, res) => {
+simpleRoute.get("/items", async (req, res) => {
   try {
     const items = await prisma.items.findMany({
       include: {
@@ -23,8 +18,7 @@ adminView.get("/", async (req, res) => {
   }
 });
 
-// ROUTE TO GET AVAILABLE COLLECTIONS
-adminView.get("/all/collections", async (req, res) => {
+simpleRoute.get("/collections", async (req, res) => {
   try {
     const collections = await prisma.collections.findMany({
       orderBy: {
@@ -37,8 +31,3 @@ adminView.get("/all/collections", async (req, res) => {
     return res.status(500).json({ message: err });
   }
 });
-//CRUD FOR ITEMS
-adminView.use("/", adminManageItems);
-
-//CRUD FOR COLLECTIONS
-adminView.use("/", adminManageCollections);

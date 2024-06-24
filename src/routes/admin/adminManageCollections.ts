@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { prisma } from "../config/prismaConfig";
-import uploadFile from "../utils/upload";
-import upload from "../middleware/multer";
+import { prisma } from "../../config/prismaConfig";
+import uploadFile from "../../utils/upload";
+import upload from "../../middleware/multer";
 
 export const adminManageCollections = Router();
 

@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { prisma } from "../config/prismaConfig";
-import uploadFile from "../utils/upload";
-import upload from "../middleware/multer";
+import { prisma } from "../../config/prismaConfig";
+import uploadFile from "../../utils/upload";
+import upload from "../../middleware/multer";
 
 export const adminManageItems = Router();
 
@@ -70,8 +70,9 @@ adminManageItems.patch("/patch/items/:id", async (req, res) => {
     !product_type ||
     !stock ||
     !price
-  )
+  ) {
     return res.status(412).json({ message: "Missing values" });
+  }
   try {
     const updateItem = await prisma.items.update({
       where: {
@@ -82,8 +83,8 @@ adminManageItems.patch("/patch/items/:id", async (req, res) => {
         name: name,
         description: description,
         product_type: product_type,
-        stock: stock,
-        price: price,
+        stock: +stock,
+        price: +price,
       },
     });
     return res.status(200).json({ message: `Item ${name} updated` });

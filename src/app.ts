@@ -10,6 +10,7 @@ import { adminView } from "./routes/adminView";
 import verifyJWT from "./middleware/verifyJWT";
 import verifyAdminRights from "./middleware/verifyAdminRights";
 import { prisma } from "./config/prismaConfig";
+import { simpleRoute } from "./routes/simpleRoutes";
 
 const app = express();
 app.use(cors());
@@ -20,20 +21,8 @@ app.get("/", (req, res) => {
   console.log("Salut");
   res.send("Hello World");
 });
-app.get("/api/", async (req, res) => {
-  try {
-    const items = await prisma.items.findMany({
-      include: {
-        collection: { select: { name: true } },
-        Items_img: { select: { id: true, image_url: true, is_main: true } },
-      },
-    });
-    return res.send(items);
-  } catch (err) {
-    console.error(err);
-    return res.status(400).send({ message: "Could not find data" });
-  }
-});
+// SIMPLE ROUTE
+app.use("/api", simpleRoute);
 // LOGIN/REGISTER ROUTE
 app.use("/auth", authRoute);
 
