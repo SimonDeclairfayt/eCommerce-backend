@@ -9,7 +9,7 @@ import { adminView } from "./routes/adminView";
 //IMPORTING MY MIDDLEWARE
 import verifyJWT from "./middleware/verifyJWT";
 import verifyAdminRights from "./middleware/verifyAdminRights";
-import { adminManageCollections } from "./routes/adminManageCollections";
+import { prisma } from "./config/prismaConfig";
 
 const app = express();
 app.use(cors());
@@ -19,6 +19,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   console.log("Salut");
   res.send("Hello World");
+});
+app.get("/api/", async (req, res) => {
+  try {
+    const items = await prisma.items.findMany({
+      include: {
+        collection: { select: { name: true } },
+        Items_img: { select: { id: true, image_url: true, is_main: true } },
+      },
+    });
+    return res.send(items);
+  } catch (err) {
+    console.error(err);
+    return res.status(400).send({ message: "Could not find data" });
+  }
 });
 // LOGIN/REGISTER ROUTE
 app.use("/auth", authRoute);
