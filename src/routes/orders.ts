@@ -41,7 +41,7 @@ ordersRoute.post("/completed", async (req: ExtendedRequest, res) => {
   const first_name: string = req.body.first_name;
   const last_name: string = req.body.last_name;
   const shipping_adress: string = req.body.shipping_adress;
-  const user_id: any = req.user ? Number(req.user.id) : null;
+  const user_id: any = req.body.user_id ? Number(req.body.user_id) : null;
   if (!email || !first_name || !last_name) {
     return res.status(412).json({ message: "Missing values" });
   }
