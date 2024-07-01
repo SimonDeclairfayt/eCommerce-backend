@@ -29,20 +29,20 @@ model Collections {
   id           Int      @id @default(autoincrement())
   date_created DateTime @default(now())
   name         String   @db.VarChar(255)
-  Items        Items?
+  Items        Items[]
 }
 
 model Items {
-  id            Int          @id @unique @default(autoincrement())
-  collection_id Int          @unique
-  collection    Collections  @relation(fields: [collection_id], references: [id])
-  name          String       @db.VarChar(255)
-  description   String       @db.VarChar(255)
-  product_type  String       @db.VarChar(100)
+  id            Int           @id @unique @default(autoincrement())
+  collection_id Int
+  collection    Collections   @relation(fields: [collection_id], references: [id])
+  name          String        @db.VarChar(255)
+  description   String        @db.VarChar(255)
+  product_type  String        @db.VarChar(100)
   stock         Int
   price         Int
-  date_created  DateTime     @default(now())
-  Order_items   Order_items?
+  date_created  DateTime      @default(now())
+  Order_items   Order_items[]
   Items_img     Items_img[]
 }
 
@@ -71,8 +71,8 @@ model Orders {
 model Order_items {
   id       Int    @id @unique @default(autoincrement())
   quantity Int
-  item_id  Int    @unique
+  item_id  Int
   item     Items  @relation(fields: [item_id], references: [id])
-  order_id Int    @unique
+  order_id Int
   order    Orders @relation(fields: [order_id], references: [id])
 }

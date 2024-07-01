@@ -10,6 +10,9 @@ simpleRoute.get("/items", async (req, res) => {
         collection: { select: { name: true } },
         Items_img: { select: { id: true, image_url: true, is_main: true } },
       },
+      orderBy: {
+        date_created: "desc",
+      },
     });
     return res.send(items);
   } catch (err) {

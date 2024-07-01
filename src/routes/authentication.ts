@@ -87,23 +87,23 @@ authRoute.post("/login", async (req, res) => {
   }
 });
 
-// authRoute.post("/admin/register", async (req, res) => {
-//   const email: string = req.body.email;
-//   const password: string = req.body.password;
-//   const first_name: string = req.body.first_name;
-//   const last_name: string = req.body.last_name;
-//   const shipping_adress: string = req.body.shipping_adress;
+authRoute.post("/admin/register", async (req, res) => {
+  const email: string = req.body.email;
+  const password: string = req.body.password;
+  const first_name: string = req.body.first_name;
+  const last_name: string = req.body.last_name;
+  const shipping_adress: string = req.body.shipping_adress;
 
-//   let hashedPassword = await encryptPassword(password);
-//   let createdUser = await prisma.users.create({
-//     data: {
-//       email: email,
-//       password: hashedPassword,
-//       first_name: first_name,
-//       last_name: last_name,
-//       shipping_adress: shipping_adress ? shipping_adress : "",
-//       is_admin: true,
-//     },
-//   });
-//   return res.status(200).json({ message: "User registered successfully" });
-// });
+  let hashedPassword = await encryptPassword(password);
+  let createdUser = await prisma.users.create({
+    data: {
+      email: email,
+      password: hashedPassword,
+      first_name: first_name,
+      last_name: last_name,
+      shipping_adress: shipping_adress ? shipping_adress : "",
+      is_admin: true,
+    },
+  });
+  return res.status(200).json({ message: "User registered successfully" });
+});

@@ -1,0 +1,40 @@
+# Dependency directories
+node_modules
+npm-debug.log
+
+# TypeScript output
+dist
+
+# Version control
+.git
+.gitignore
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE files
+.vscode
+.idea
+
+# Logs
+logs
+*.log
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Test coverage
+coverage
+
+# Temporary files
+*.tmp
+*.temp
+
+# Build files
+build
+
+# Prisma
+*.db

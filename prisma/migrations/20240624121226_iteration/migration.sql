@@ -37,6 +37,7 @@ CREATE TABLE "Items" (
 -- CreateTable
 CREATE TABLE "Items_img" (
     "id" SERIAL NOT NULL,
+    "item_id" INTEGER NOT NULL,
     "image_url" TEXT NOT NULL,
     "is_main" BOOLEAN NOT NULL DEFAULT false,
 
@@ -75,9 +76,6 @@ CREATE UNIQUE INDEX "Users_email_key" ON "Users"("email");
 CREATE UNIQUE INDEX "Items_id_key" ON "Items"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Items_collection_id_key" ON "Items"("collection_id");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Items_img_id_key" ON "Items_img"("id");
 
 -- CreateIndex
@@ -94,6 +92,9 @@ CREATE UNIQUE INDEX "Order_items_order_id_key" ON "Order_items"("order_id");
 
 -- AddForeignKey
 ALTER TABLE "Items" ADD CONSTRAINT "Items_collection_id_fkey" FOREIGN KEY ("collection_id") REFERENCES "Collections"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Items_img" ADD CONSTRAINT "Items_img_item_id_fkey" FOREIGN KEY ("item_id") REFERENCES "Items"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Orders" ADD CONSTRAINT "Orders_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "Users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
