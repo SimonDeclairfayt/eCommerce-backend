@@ -14,7 +14,20 @@ simpleRoute.get("/items", async (req, res) => {
         date_created: "desc",
       },
     });
-    return res.send(items);
+    let productTypeCounts = await prisma.items.groupBy({
+      by: ["product_type"],
+      _count: {
+        product_type: true,
+      },
+    });
+
+    return res.json({
+      Objets: items,
+      ProductType: productTypeCounts.map((result) => ({
+        product_type: result.product_type,
+        count: result._count.product_type,
+      })),
+    });
   } catch (err) {
     console.error(err);
     return res.status(400).send({ message: "Could not find data" });
