@@ -21,3 +21,30 @@ userRoute.get("/", async (req: ExtendedRequest, res) => {
     return res.status(400).json({ message: "Error occured" });
   }
 });
+userRoute.patch("/:id", async (req: ExtendedRequest, res) => {
+  if (!req.user) return res.status(404).json({ message: "Not logged in" });
+  let newShippingAdress: string = req.body.shipping_adress;
+  let user_id = req.params.id;
+  if (req.user.id == user_id) {
+    try {
+      let numberId = +user_id;
+      let updateUser = await prisma.users.update({
+        where: {
+          id: numberId,
+        },
+        data: {
+          shipping_adress: newShippingAdress,
+        },
+      });
+      return res
+        .status(200)
+        .json({ message: "User updated", user: updateUser.shipping_adress });
+    } catch (err) {
+      return res.status(500).json({ message: "Something went wrong" });
+    }
+  } else {
+    return res
+      .status(400)
+      .json({ message: "Id given is different than your user_id" });
+  }
+});
