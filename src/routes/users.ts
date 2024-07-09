@@ -12,7 +12,18 @@ userRoute.get("/", async (req: ExtendedRequest, res) => {
         user_id: +req.user.id,
       },
       include: {
-        Order_items: true,
+        Order_items: {
+          select: {
+            quantity: true,
+          },
+          include: {
+            item: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
     return res.status(200).json({ user: req.user, orders: allOrdersByUser });
