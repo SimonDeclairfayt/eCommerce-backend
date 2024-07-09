@@ -15,8 +15,6 @@ userRoute.get("/", async (req: ExtendedRequest, res) => {
         Order_items: {
           select: {
             quantity: true,
-          },
-          include: {
             item: {
               select: {
                 name: true,
