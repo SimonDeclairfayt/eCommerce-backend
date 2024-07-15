@@ -47,7 +47,7 @@ userRoute.patch("/:id", async (req: ExtendedRequest, res) => {
       });
       return res
         .status(200)
-        .json({ message: "User updated", user: updateUser.shipping_adress });
+        .json({ message: "User updated", user: updateUser });
     } catch (err) {
       return res.status(500).json({ message: "Something went wrong" });
     }
