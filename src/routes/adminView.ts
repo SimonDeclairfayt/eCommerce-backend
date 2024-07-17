@@ -41,10 +41,10 @@ adminView.get("/all/collections", async (req, res) => {
 });
 
 //CRUD FOR ITEMS
-adminView.use("/", adminManageItems);
+adminView.use("", adminManageItems);
 
 //CRUD FOR COLLECTIONS
-adminView.use("/", adminManageCollections);
+adminView.use("", adminManageCollections);
 
 adminView.use("/user", adminManageUser);
 

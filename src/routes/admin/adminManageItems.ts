@@ -168,3 +168,18 @@ adminManageItems.delete("/delete/itemsimg/:id", async (req, res) => {
     return res.status(412).send({ message: "No file found" });
   }
 });
+
+adminManageItems.delete("/delete/item/:id", async (req, res) => {
+  let id: number = +req.params.id;
+  try {
+    const deleteItem = await prisma.items.delete({
+      where: {
+        id: id,
+      },
+    });
+  } catch (err) {
+    return res
+      .status(400)
+      .json({ message: "Could not delete that item", err: err });
+  }
+});

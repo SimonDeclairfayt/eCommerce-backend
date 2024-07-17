@@ -56,3 +56,16 @@ adminManageCollections.patch("/patch/collection/:id", async (req, res) => {
       .json({ message: "Error updating the collection name", Error: err });
   }
 });
+adminManageCollections.delete("/delete/collection/:id", async (req, res) => {
+  const id: number = +req.params.id;
+  try {
+    const deleteCollection = await prisma.collections.delete({
+      where: {
+        id: id,
+      },
+    });
+    return res.status(200).json({ message: "Collection deleted" });
+  } catch (err) {
+    return res.status(400).json({ message: "Something went wrong", err: err });
+  }
+});
