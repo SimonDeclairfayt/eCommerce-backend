@@ -4,6 +4,8 @@ import uploadFile from "../utils/upload";
 import upload from "../middleware/multer";
 import { adminManageItems } from "./admin/adminManageItems";
 import { adminManageCollections } from "./admin/adminManageCollections";
+import { adminManageUser } from "./admin/adminManageUsers";
+import { adminManageOrders } from "./admin/adminManageOrders";
 
 export const adminView = Router();
 
@@ -37,8 +39,13 @@ adminView.get("/all/collections", async (req, res) => {
     return res.status(500).json({ message: err });
   }
 });
+
 //CRUD FOR ITEMS
 adminView.use("/", adminManageItems);
 
 //CRUD FOR COLLECTIONS
 adminView.use("/", adminManageCollections);
+
+adminView.use("/user", adminManageUser);
+
+adminView.use("/orders", adminManageOrders);
