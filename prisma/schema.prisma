@@ -34,8 +34,8 @@ model Collections {
 
 model Items {
   id            Int           @id @unique @default(autoincrement())
-  collection_id Int
-  collection    Collections   @relation(fields: [collection_id], references: [id])
+  collection_id Int?
+  collection    Collections?  @relation(fields: [collection_id], references: [id])
   name          String        @db.VarChar(255)
   description   String        @db.VarChar(255)
   product_type  String        @db.VarChar(100)

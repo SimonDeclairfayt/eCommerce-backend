@@ -58,6 +58,7 @@ adminManageCollections.patch("/patch/collection/:id", async (req, res) => {
 });
 adminManageCollections.delete("/delete/collection/:id", async (req, res) => {
   const id: number = +req.params.id;
+
   try {
     const deleteCollection = await prisma.collections.delete({
       where: {

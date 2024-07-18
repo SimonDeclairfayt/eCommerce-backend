@@ -172,11 +172,28 @@ adminManageItems.delete("/delete/itemsimg/:id", async (req, res) => {
 adminManageItems.delete("/delete/item/:id", async (req, res) => {
   let id: number = +req.params.id;
   try {
-    const deleteItem = await prisma.items.delete({
+    let checkItem = await prisma.order_items.findFirst({
       where: {
-        id: id,
+        item_id: id,
       },
     });
+    if (!checkItem) {
+      const deleteAllImgs = await prisma.items_img.deleteMany({
+        where: {
+          item_id: id,
+        },
+      });
+      const deleteItem = await prisma.items.delete({
+        where: {
+          id: id,
+        },
+      });
+      return res.status(200).json({ message: "Item deleted" });
+    } else {
+      return res
+        .status(400)
+        .json({ message: "Item is in an order, can't delete" });
+    }
   } catch (err) {
     return res
       .status(400)
