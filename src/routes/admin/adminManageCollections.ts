@@ -20,14 +20,17 @@ adminManageCollections.post("/add/collection", async (req, res) => {
   } else {
     //OR WE TRY TO CREATE THE COLLECTION
     try {
-      await prisma.collections.create({
+      const newCollection = await prisma.collections.create({
         data: {
           name: collectionName,
         },
       });
       return res
         .status(200)
-        .json({ message: "Collection created successfully" });
+        .json({
+          message: "Collection created successfully",
+          collection: newCollection,
+        });
     } catch (err) {
       // JUST IN CASE SOMETHING GOES WRONG HERE
       console.error("Can't save the collection" + err);
@@ -49,7 +52,9 @@ adminManageCollections.patch("/patch/collection/:id", async (req, res) => {
         name: collectionName,
       },
     });
-    return res.status(200).json({ message: "Collection updated" });
+    return res
+      .status(200)
+      .json({ message: "Collection updated", collection: updateCollection });
   } catch (err) {
     return res
       .status(500)
