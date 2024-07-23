@@ -29,8 +29,8 @@ ordersRoute.post("/create-checkout-session", async (req, res) => {
     payment_method_types: ["card"],
     mode: "payment",
     line_items: lineItems,
-    success_url: "http://127.0.0.1:5173/success",
-    cancel_url: "http://127.0.0.1:5173/cancel",
+    success_url: "https://main--ceramiks.netlify.app/success",
+    cancel_url: "https://main--ceramiks.netlify.app/cancel",
   });
   res.status(200).json({ sessionId: session.url });
 });
