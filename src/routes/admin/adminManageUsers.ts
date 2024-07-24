@@ -17,9 +17,14 @@ adminManageUser.get("/all", async (req, res) => {
 });
 
 adminManageUser.delete("/:id", async (req, res) => {
-  const id = req.params.id;
   try {
+    let deleteUser = await prisma.users.delete({
+      where: {
+        id: +req.params.id,
+      },
+    });
+    return res.status(200).json({ message: "Account deleted" });
   } catch (err) {
-    return res.send(err);
+    return res.status(400).json({ message: "Could not delete it" });
   }
 });

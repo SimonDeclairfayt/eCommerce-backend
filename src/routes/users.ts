@@ -57,3 +57,19 @@ userRoute.patch("/:id", async (req: ExtendedRequest, res) => {
       .json({ message: "Id given is different than your user_id" });
   }
 });
+userRoute.delete("/:id", async (req: ExtendedRequest, res) => {
+  if (!req.user)
+    return res.status(404).json({ message: "Need to be logged in" });
+  if (req.user.id == req.params.id) {
+    try {
+      let deleteUser = await prisma.users.delete({
+        where: {
+          id: +req.params.id,
+        },
+      });
+      return res.status(200).json({ message: "Account deleted" });
+    } catch (err) {
+      return res.status(400).json({ message: "Could not delete it" });
+    }
+  }
+});
