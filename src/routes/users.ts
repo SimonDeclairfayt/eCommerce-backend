@@ -57,7 +57,7 @@ userRoute.patch("/:id", async (req: ExtendedRequest, res) => {
       .json({ message: "Id given is different than your user_id" });
   }
 });
-userRoute.delete("/:id", async (req: ExtendedRequest, res) => {
+userRoute.delete("/delete/:id", async (req: ExtendedRequest, res) => {
   if (!req.user)
     return res.status(404).json({ message: "Need to be logged in" });
   if (req.user.id == req.params.id) {
